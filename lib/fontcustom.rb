@@ -44,7 +44,8 @@ module Fontcustom
     :preprocessor_path => nil,
     :no_hash => false,
     :debug => false,
-    :quiet => false
+    :quiet => false,
+    :skip_first => false
   }
 
   DATA_MODEL = {

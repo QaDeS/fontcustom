@@ -1,4 +1,8 @@
+#encoding: utf-8
 require 'spec_helper'
+
+Fontcustom::Options.send :public, :remove_instance_variable
+
 
 describe Fontcustom::Options do
   def options(args = {})
@@ -125,7 +129,7 @@ describe Fontcustom::Options do
       o = options
       o.instance_variable_set :@config_options, {}
       o.send :merge_options
-      o.instance_variables.length.should == Fontcustom::DEFAULT_OPTIONS.length + 2 # @shell, @mock_proxy (rspec)
+      o.instance_variables.sort.should == (Fontcustom::DEFAULT_OPTIONS.keys - [:config] + [:shell]).sort.map{|k| :"@#{k}"} # @shell, @mock_proxy (rspec)
     end
 
     it "should overwrite defaults with config file" do
