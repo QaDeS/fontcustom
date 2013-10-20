@@ -45,7 +45,8 @@ module Fontcustom
     :no_hash => false,
     :debug => false,
     :quiet => false,
-    :skip_first => false
+    :skip_first => false,
+    :grouped => false
   }
 
   DATA_MODEL = {

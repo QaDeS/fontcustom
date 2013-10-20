@@ -44,6 +44,10 @@ module Fontcustom
     class_option :no_hash, :aliases => "-h", :type => :boolean,
       :desc => "Generate fonts without asset-busting hashes."
 
+    class_option :grouped, :aliases => "-g", :type => :boolean,
+      :desc => "Generate css classes with group/subdirectory names.",
+      :default => DEFAULT_OPTIONS[:grouped]
+
     class_option :debug, :aliases => "-g", :type => :boolean,
       :desc => "Display debugging messages."
 

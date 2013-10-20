@@ -11,6 +11,7 @@ try:
 	parser.add_argument('dir', metavar='directory', type=unicode, nargs=2, help='directory of vector files')
 	parser.add_argument('--name', metavar='fontname', type=unicode, nargs='?', help='reference name of the font (no spaces)')
 	parser.add_argument('--nohash', '-n', action='store_true', help='disable hash fingerprinting of font files')
+	parser.add_argument('--grouped', '-g', action='store_true', help='group icons by sub directory name')
 	parser.add_argument('--debug', '-d', action='store_true', help='display debug messages')
 	args = parser.parse_args()
 	indir = args.dir[0]
@@ -21,6 +22,7 @@ except ImportError:
 	parser = optparse.OptionParser(description='Convert a directory of svg and eps files into a unified font file.')
 	parser.add_option('--name', metavar='fontname', type='string', nargs='?', help='reference name of the font (no spaces)')
 	parser.add_option('--nohash', '-n', action='store_true', help='disable hash fingerprinting of font files')
+	parser.add_argument('--grouped', '-g', action='store_true', help='group icons by sub directory name')
 	parser.add_argument('--debug', '-d', action='store_true', help='display debug messages')
 	(args, posargs) = parser.parse_args()
 	indir = posargs[0]
@@ -38,6 +40,8 @@ cp = 0xf100
 files = []
 
 KERNING = 15
+
+indirLen = len(os.path.split(indir))
 
 for dirname, dirnames, filenames in os.walk(indir):
 	for filename in filenames:
@@ -83,7 +87,11 @@ for dirname, dirnames, filenames in os.walk(indir):
 			glyph.left_side_bearing = glyph.right_side_bearing = 0
 			glyph.round()
 
-			files.append(name)
+			subdir = os.path.relpath(dirname, indir)
+			if args.grouped and subdir != ".":
+				files.append(os.path.join(subdir, name))
+			else:
+				files.append(name)
 			cp += 1
 
 		f.autoWidth(0, 0, 512)

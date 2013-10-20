@@ -183,6 +183,27 @@ describe Fontcustom::Generator::Font do
         fixture("output/fontcustom_cc5ce52f2ae4f9ce2e7ee8131bbfee1e.woff")
       ]
     end
+
+    it "should assign grouped @data from @json" do
+      gen = generator(
+        :project_root => fixture,
+        :input => "shared/vectors-grouped",
+        :grouped => true,
+        :debug => true,
+        :output => "output"
+      )
+      gen.instance_variable_set(:@data, Fontcustom::DATA_MODEL)
+      gen.instance_variable_set(:@json, data_file_contents.to_json)
+      gen.collect_data
+      data = gen.instance_variable_get(:@data)
+      data[:glyphs].should =~ ["a-c", "b-d", "a-a_r3ally-exotic-f1le-name"]
+      data[:fonts].should =~ [
+        fixture("output/fontcustom_cc5ce52f2ae4f9ce2e7ee8131bbfee1e.eot"),
+        fixture("output/fontcustom_cc5ce52f2ae4f9ce2e7ee8131bbfee1e.svg"),
+        fixture("output/fontcustom_cc5ce52f2ae4f9ce2e7ee8131bbfee1e.ttf"),
+        fixture("output/fontcustom_cc5ce52f2ae4f9ce2e7ee8131bbfee1e.woff")
+      ]
+    end
   end
 
   context "#announce_files" do

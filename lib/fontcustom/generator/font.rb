@@ -56,6 +56,7 @@ module Fontcustom
       def generate
         cmd = "fontforge -script #{Fontcustom.gem_lib}/scripts/generate.py #{opts.input[:vectors]} #{opts.output[:fonts]} --name #{opts.font_name}" 
         cmd += " --nohash" if opts.no_hash
+        cmd += " --grouped" if opts.grouped
         cmd += " --debug" if opts.debug
         output, err, status = execute_and_clean(cmd)
         @json = output.delete_at(0)
